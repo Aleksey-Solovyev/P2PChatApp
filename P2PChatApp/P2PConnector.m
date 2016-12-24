@@ -64,7 +64,23 @@
 }
 //////
 
+-(void)setupMCBrowser{
+    _browser = [[MCBrowserViewController alloc] initWithServiceType:@"Chat-Files" session:_session];
+}
 
+
+-(void)advertiseSelf:(BOOL)shouldAdvertise{
+    if (shouldAdvertise) {
+        _advertiser = [[MCAdvertiserAssistant alloc] initWithServiceType:@"Chat-Files"
+                                                           discoveryInfo:nil
+                                                                 session:_session];
+        [_advertiser start];
+    }
+    else{
+        [_advertiser stop];
+        _advertiser = nil;
+    }
+}
 //////
 
 @end

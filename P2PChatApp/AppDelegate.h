@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+//////
+#import "P2PConnector.h"
+//////
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+//////
+@property (strong, nonatomic) P2PConnector *p2pConnector;
+//////
 
 @end
 

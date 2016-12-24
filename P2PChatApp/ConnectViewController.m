@@ -8,7 +8,15 @@
 
 #import "ConnectViewController.h"
 
+//////
+#import "AppDelegate.h"
+//////
+
 @interface ConnectViewController ()
+
+//////
+@property (nonatomic, strong) AppDelegate *appDelegate;
+//////
 
 @end
 

@@ -17,6 +17,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //////
+    _p2pConnector = [[P2PConnector alloc] init];
+    //////
+    
     return YES;
 }
 

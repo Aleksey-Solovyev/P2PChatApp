@@ -25,6 +25,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //////
+    _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [[_appDelegate p2pConnector] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    [[_appDelegate p2pConnector] advertiseSelf:_switchVisible.isOn];
+    //////
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,11 +48,32 @@
 }
 */
 
+//////
+
+
+- (IBAction)searchUsersButton:(id)sender {
+    [[_appDelegate p2pConnector] setupMCBrowser];
+    [[[_appDelegate p2pConnector] browser] setDelegate:self];
+    [self presentViewController:[[_appDelegate p2pConnector] browser] animated:YES completion:nil];
+}
+//////
+
+-(void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController{
+    [_appDelegate.p2pConnector.browser dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+-(void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController{
+    [_appDelegate.p2pConnector.browser dismissViewControllerAnimated:YES completion:nil];
+}
+
+//////
+
 - (IBAction)switchVisible:(UISwitch *)sender {
 }
 
-- (IBAction)searchUsersButton:(UIButton *)sender {
-}
+//- (IBAction)searchUsersButton:(UIButton *)sender {
+//}
 
 - (IBAction)disconnectUserButton:(UIButton *)sender {
 }

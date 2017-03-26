@@ -10,7 +10,7 @@
 //////
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 //////
-@interface ConnectViewController : UIViewController /* */ <MCBrowserViewControllerDelegate>
+@interface ConnectViewController : UIViewController /* */ <MCBrowserViewControllerDelegate /* */, UITextFieldDelegate>
 
 //////
 

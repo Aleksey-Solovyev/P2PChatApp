@@ -31,6 +31,10 @@
     [[_appDelegate p2pConnector] setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
     [[_appDelegate p2pConnector] advertiseSelf:_switchVisible.isOn];
     //////
+    
+    //////
+    [_userDeviceName setDelegate:self];
+    //////
 }
 
 - (void)didReceiveMemoryWarning {

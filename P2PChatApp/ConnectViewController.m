@@ -35,8 +35,28 @@
     //////
     [_userDeviceName setDelegate:self];
     //////
+    
+    //////
+    -(BOOL)textFieldShouldReturn:(UITextField *) textField{
+        [_userDeviceName resignFirstResponder];
+        
+        _appDelegate.P2PConnector.peerID = nil;
+        _appDelegate.P2PConnector.session = nil;
+        _appDelegate.P2PConnector.browser = nil;
+        
+        if ([_switchVisible isOn]) {
+            [_appDelegate.P2PConnector.advertiser stop];
+        }
+        _appDelegate.P2PConnector.advertiser = nil;
+        
+        [_appDelegate.P2PConnector setupPeerAndSessionWithDisplayName: _userDeviceName.text];
+        [_appDelegate.P2PConnector setupMCBrowser];
+        [_appDelegate.P2PConnector advertiseSelf:_switchVisible.isOn];
+        
+        return YES;
 }
-
+    /////
+    
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -81,4 +101,8 @@
 
 - (IBAction)disconnectUserButton:(UIButton *)sender {
 }
+    /////
+    - (IBAction)ToggleVisibility:(id)sender {
+        [_appDelegate.P2PConnector advertiseSelf:_switchVisible.isOn];
+    }
 @end

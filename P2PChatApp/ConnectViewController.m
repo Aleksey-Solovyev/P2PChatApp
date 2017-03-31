@@ -37,27 +37,28 @@
     //////
     
     //////
-//    -(BOOL)textFieldShouldReturn:(UITextField *) textField{
-//        [_userDeviceName resignFirstResponder];
-//        
-//        _appDelegate.p2pConnector.peerID = nil;
-//        _appDelegate.p2pConnector.session = nil;
-//        _appDelegate.p2pConnector.browser = nil;
-//        
-//        if ([_switchVisible isOn]) {
-//            [_appDelegate.p2pConnector.advertiser stop];
-//        }
-//        _appDelegate.p2pConnector.advertiser = nil;
-//        
-//        [_appDelegate.p2pConnector setupPeerAndSessionWithDisplayName: _userDeviceName.text];
-//        [_appDelegate.p2pConnector setupMCBrowser];
-//        [_appDelegate.p2pConnector advertiseSelf:_switchVisible.isOn];
-//        
-//        return YES;
-//    }
 }
     /////
+-(BOOL)textFieldShouldReturn:(UITextField *) textField{
+    [_userDeviceName resignFirstResponder];
     
+    _appDelegate.p2pConnector.peerID = nil;
+    _appDelegate.p2pConnector.session = nil;
+    _appDelegate.p2pConnector.browser = nil;
+    
+    if ([_switchVisible isOn]) {
+        [_appDelegate.p2pConnector.advertiser stop];
+    }
+    _appDelegate.p2pConnector.advertiser = nil;
+    
+    [_appDelegate.p2pConnector setupPeerAndSessionWithDisplayName: _userDeviceName.text];
+    [_appDelegate.p2pConnector setupMCBrowser];
+    [_appDelegate.p2pConnector advertiseSelf:_switchVisible.isOn];
+    
+    return YES;
+}
+    /////
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -103,7 +104,8 @@
 - (IBAction)disconnectUserButton:(UIButton *)sender {
 }
     /////
-//    - (IBAction)ToggleVisibility:(id)sender {
-//        [_appDelegate.p2pConnector advertiseSelf:_switchVisible.isOn];
-//    }
+- (IBAction)ToggleVisibility:(id)sender {
+    [_appDelegate.p2pConnector advertiseSelf:_switchVisible.isOn];
+}
+    /////
 @end

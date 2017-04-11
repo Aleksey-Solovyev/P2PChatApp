@@ -14,6 +14,13 @@
 
 @interface ConnectViewController ()
 
+
+/////
+-(void)peerDidChangeStateWithNotification:(NSNotification *)notification;
+/////
+/////
+@property(nonatomic, strong) NSMutableArray *arrConnectedDevices;
+/////
 //////
 @property (nonatomic, strong) AppDelegate *appDelegate;
 //////
@@ -35,10 +42,20 @@
     //////
     [_userDeviceName setDelegate:self];
     //////
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peerDidChangeStateWithNotification:) name:@"MCDidChangeStateNotification" object:nil];
     //////
-}
+    _arrConnectedDevices = [[NSMutableArray alloc] init];
+//    [_tblConnectedDevices setDelegate:self];
+//    [_tblConnectedDevices setDataSource:self];
     /////
+}
+/////
+//-(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
+//    MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
+//    NSString *peerDisplayName = peerID.displayName;
+//    MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
+//}
+/////
 -(BOOL)textFieldShouldReturn:(UITextField *) textField{
     [_userDeviceName resignFirstResponder];
     
@@ -108,4 +125,5 @@
     [_appDelegate.p2pConnector advertiseSelf:_switchVisible.isOn];
 }
     /////
+
 @end

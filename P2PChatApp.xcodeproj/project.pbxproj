@@ -110,6 +110,8 @@
 		DAE26F1F1DFB1F490011932A /* P2PChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				DAE26F641DFB462E0011932A /* P2PConnector.h */,
+				DAE26F651DFB462E0011932A /* P2PConnector.m */,
 				DAE26F231DFB1F490011932A /* AppDelegate.h */,
 				DAE26F241DFB1F490011932A /* AppDelegate.m */,
 				DAE26F5B1DFB35520011932A /* ChatViewController.h */,
@@ -118,8 +120,6 @@
 				DAE26F5F1DFB356A0011932A /* FileViewController.m */,
 				DAE26F611DFB35830011932A /* ConnectViewController.h */,
 				DAE26F621DFB35830011932A /* ConnectViewController.m */,
-				DAE26F641DFB462E0011932A /* P2PConnector.h */,
-				DAE26F651DFB462E0011932A /* P2PConnector.m */,
 				DAE26F2C1DFB1F490011932A /* Main.storyboard */,
 				DAE26F591DFB2CA10011932A /* Assets.xcassets */,
 				DAE26F311DFB1F490011932A /* LaunchScreen.storyboard */,

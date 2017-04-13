@@ -77,13 +77,14 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60.0;
 }
+
 /////
 -(void)peerDidChangeStateWithNotification:(NSNotification *)notification{
     MCPeerID *peerID = [[notification userInfo] objectForKey:@"peerID"];
     NSString *peerDisplayName = peerID.displayName;
     MCSessionState state = [[[notification userInfo] objectForKey:@"state"] intValue];
     /////
-    if (state != MCSessionStateConnecting) {
+
     /////
     if (state != MCSessionStateConnecting) {
         if (state == MCSessionStateConnected) {
@@ -91,20 +92,21 @@
         }
         else if (state == MCSessionStateNotConnected){
             if ([_arrConnectedDevices count] > 0) {
-                long int indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
+                long indexOfPeer = [_arrConnectedDevices indexOfObject:peerDisplayName];
                 [_arrConnectedDevices removeObjectAtIndex:indexOfPeer];
             }
         }
-    }
         [_foundedUsers reloadData];
         
         BOOL peersExist = ([[_appDelegate.p2pConnector.session connectedPeers] count] == 0);
         [_disconnectDeviceButton setEnabled:!peersExist];
         [_userDeviceName setEnabled:peersExist];
     }
-    /////
 }
+    /////
+
 /////
+
 -(BOOL)textFieldShouldReturn:(UITextField *) textField{
     [_userDeviceName resignFirstResponder];
     
@@ -163,9 +165,6 @@
 
 - (IBAction)switchVisible:(UISwitch *)sender {
 }
-
-//- (IBAction)searchUsersButton:(UIButton *)sender {
-//}
 
 - (IBAction)disconnectUserButton:(UIButton *)sender {
 }

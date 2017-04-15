@@ -7,9 +7,16 @@
 //
 
 #import "FileViewController.h"
+/////
+#import "AppDelegate.h"
+/////
 
 @interface FileViewController ()
-
+/////
+@property (nonatomic, strong) AppDelegate *appDelegate;
+@property (nonatomic, strong) NSString *documentsDirectory;
+-(void) copySampleFilesToDocDirIfNeeded;
+/////
 @end
 
 @implementation FileViewController
@@ -17,6 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    /////
+    _appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 }
 
 - (void)didReceiveMemoryWarning {

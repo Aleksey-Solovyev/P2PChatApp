@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChatViewController : UIViewController
+@interface ChatViewController : UIViewController /* */ <UITextFieldDelegate>
+/////
+@property (weak, nonatomic) IBOutlet UITextField *textMessage;
 
+@property (weak, nonatomic) IBOutlet UITextView *textChat;
+
+- (IBAction)sendMessage:(id)sender;
+
+- (IBAction)cancelMessage:(id)sender;
+/////
 @end

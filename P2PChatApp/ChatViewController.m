@@ -34,4 +34,9 @@
 }
 */
 
+- (IBAction)sendMessage:(id)sender {
+}
+
+- (IBAction)cancelMessage:(id)sender {
+}
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FileViewController : UIViewController
-
+@interface FileViewController : UIViewController /* */ <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
+/////
+@property (weak, nonatomic) IBOutlet UITableView *tableFiles;
+/////
 @end

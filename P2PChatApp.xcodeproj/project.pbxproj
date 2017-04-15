@@ -110,10 +110,10 @@
 		DAE26F1F1DFB1F490011932A /* P2PChatApp */ = {
 			isa = PBXGroup;
 			children = (
-				DAE26F641DFB462E0011932A /* P2PConnector.h */,
-				DAE26F651DFB462E0011932A /* P2PConnector.m */,
 				DAE26F231DFB1F490011932A /* AppDelegate.h */,
 				DAE26F241DFB1F490011932A /* AppDelegate.m */,
+				DAE26F641DFB462E0011932A /* P2PConnector.h */,
+				DAE26F651DFB462E0011932A /* P2PConnector.m */,
 				DAE26F5B1DFB35520011932A /* ChatViewController.h */,
 				DAE26F5C1DFB35520011932A /* ChatViewController.m */,
 				DAE26F5E1DFB356A0011932A /* FileViewController.h */,

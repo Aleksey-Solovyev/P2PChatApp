@@ -95,5 +95,11 @@
     }
 }
 //////
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCReceivingProgressNotification"
+                                                        object:nil
+                                                      userInfo:@{@"progress": (NSProgress *)object}];
+}
+/////
 
 @end

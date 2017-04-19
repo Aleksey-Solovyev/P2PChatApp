@@ -23,6 +23,9 @@
 @property (nonatomic, strong) NSString *selectedFile;
 @property (nonatomic) NSInteger selectedRow;
 /////
+-(void)didStartReceivingResourceWithNotification:(NSNotification *)notification;
+-(void)updateReceivingProgressWithNotification:(NSNotification *)notification;
+/////
 @end
 
 @implementation FileViewController
@@ -40,6 +43,16 @@
     [_tableFiles setDelegate:self];
     [_tableFiles setDataSource:self];
     [_tableFiles reloadData];
+    /////
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didStartReceivingResourceWithNotification:)
+                                                 name:@"MCDidStartReceivingResourceNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateReceivingProgressWithNotification:)
+                                                 name:@"MCReceivingProgressNotification"
+                                               object:nil];
 }
 /////
 -(void)copySampleFilesToDocDirIfNeeded{
@@ -99,7 +112,9 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
-    
+    /////
+    if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
+    /////
     cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
     
     if (cell == nil) {
@@ -110,7 +125,22 @@
     cell.textLabel.text = [_arrFiles objectAtIndex:indexPath.row];
     
     [[cell textLabel] setFont:[UIFont systemFontOfSize:14.0]];
-    
+    }
+    /////
+    else {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"newFileCellIdentifier"];
+        
+        NSDictionary *dict = [_arrFiles objectAtIndex:indexPath.row];
+        NSString *receivedFilename = [dict objectForKey:@"resourceName"];
+        NSString *peerDisplayName = [[dict objectForKey:@"peerID"] displayName];
+        NSProgress *progress = [dict objectForKey:@"progress"];
+        
+        [(UILabel *)[cell viewWithTag:100] setText:receivedFilename];
+        [(UILabel *)[cell viewWithTag:200] setText:[NSString stringWithFormat:@"from %@", peerDisplayName]];
+        [(UIProgressView *)[cell viewWithTag:300] setProgress:progress.fractionCompleted];
+
+    }
+    /////
     return cell;
 }
 
@@ -192,6 +222,32 @@
     [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 /////
+-(void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress{
+    
+    NSDictionary *dict = @{@"resourceName"  :   resourceName,
+                           @"peerID"        :   peerID,
+                           @"progress"      :   progress
+                           };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidStartReceivingResourceNotification"
+                                                        object:nil
+                                                      userInfo:dict];
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [progress addObserver:self
+                   forKeyPath:@"fractionCompleted"
+                      options:NSKeyValueObservingOptionNew
+                      context:nil];
+    });
+}
+/////
+-(void)didStartReceivingResourceWithNotification:(NSNotification *)notification{
+    [_arrFiles addObject:[notification userInfo]];
+    [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+/////
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

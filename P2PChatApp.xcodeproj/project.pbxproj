@@ -18,6 +18,8 @@
 		DAE26F601DFB356A0011932A /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE26F5F1DFB356A0011932A /* FileViewController.m */; };
 		DAE26F631DFB35830011932A /* ConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE26F621DFB35830011932A /* ConnectViewController.m */; };
 		DAE26F661DFB462E0011932A /* P2PConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE26F651DFB462E0011932A /* P2PConnector.m */; };
+		FAE2FAAD1EA7B319001C5121 /* sample1.txt in Resources */ = {isa = PBXBuildFile; fileRef = FAE2FAAB1EA7B318001C5121 /* sample1.txt */; };
+		FAE2FAAE1EA7B319001C5121 /* sample2.txt in Resources */ = {isa = PBXBuildFile; fileRef = FAE2FAAC1EA7B319001C5121 /* sample2.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		DAE26F621DFB35830011932A /* ConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectViewController.m; sourceTree = "<group>"; };
 		DAE26F641DFB462E0011932A /* P2PConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PConnector.h; sourceTree = "<group>"; };
 		DAE26F651DFB462E0011932A /* P2PConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PConnector.m; sourceTree = "<group>"; };
+		FAE2FAAB1EA7B318001C5121 /* sample1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample1.txt; sourceTree = "<group>"; };
+		FAE2FAAC1EA7B319001C5121 /* sample2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 				DAE26F5C1DFB35520011932A /* ChatViewController.m */,
 				DAE26F5E1DFB356A0011932A /* FileViewController.h */,
 				DAE26F5F1DFB356A0011932A /* FileViewController.m */,
+				FAE2FAAB1EA7B318001C5121 /* sample1.txt */,
+				FAE2FAAC1EA7B319001C5121 /* sample2.txt */,
 				DAE26F611DFB35830011932A /* ConnectViewController.h */,
 				DAE26F621DFB35830011932A /* ConnectViewController.m */,
 				DAE26F2C1DFB1F490011932A /* Main.storyboard */,
@@ -261,8 +267,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAE2FAAD1EA7B319001C5121 /* sample1.txt in Resources */,
 				DAE26F331DFB1F490011932A /* LaunchScreen.storyboard in Resources */,
 				DAE26F5A1DFB2CA10011932A /* Assets.xcassets in Resources */,
+				FAE2FAAE1EA7B319001C5121 /* sample2.txt in Resources */,
 				DAE26F2E1DFB1F490011932A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

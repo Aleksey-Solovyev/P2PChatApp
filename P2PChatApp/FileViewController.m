@@ -16,8 +16,12 @@
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) NSString *documentsDirectory;
 -(void) copySampleFilesToDocDirIfNeeded;
+/////
 @property (nonatomic, strong) NSMutableArray *arrFiles;
 -(NSArray *) getAllDocDirFiles;
+/////
+@property (nonatomic, strong) NSString *selectedFile;
+@property (nonatomic) NSInteger selectedRow;
 /////
 @end
 
@@ -113,6 +117,79 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60.0;
+}
+/////
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *selectedFile = [_arrFiles objectAtIndex:indexPath.row];
+    UIActionSheet *confirmSending = [[UIActionSheet alloc] initWithTitle:selectedFile
+                                                                delegate:self
+                                                       cancelButtonTitle:nil
+                                                  destructiveButtonTitle:nil
+                                                       otherButtonTitles:nil];
+    
+    for (int i=0; i < [[_appDelegate.p2pConnector.session connectedPeers] count]; i++) {
+        [confirmSending addButtonWithTitle:[[[_appDelegate.p2pConnector.session connectedPeers] objectAtIndex:i] displayName]];
+    }
+    
+    [confirmSending setCancelButtonIndex:[confirmSending addButtonWithTitle:@"Cancel"]];
+    
+    [confirmSending showInView:self.view];
+    
+    _selectedFile = [_arrFiles objectAtIndex:indexPath.row];
+    _selectedRow = indexPath.row;
+}
+/////
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex != [[_appDelegate.p2pConnector.session connectedPeers] count]) {
+        NSString *filePath = [_documentsDirectory stringByAppendingPathComponent:_selectedFile];
+        NSString *modifiedName = [NSString stringWithFormat:@"%@_%@", _appDelegate.p2pConnector.peerID.displayName, _selectedFile];
+        NSURL *resourceURL = [NSURL fileURLWithPath:filePath];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSProgress *progress = [_appDelegate.p2pConnector.session sendResourceAtURL:resourceURL
+                                                                            withName:modifiedName
+                                                                              toPeer:[[_appDelegate.p2pConnector.session connectedPeers] objectAtIndex:buttonIndex]
+                                    
+                                                               withCompletionHandler:^(NSError *error) {
+                                                                   if (error) {
+                                                                       NSLog(@"Error: %@", [error localizedDescription]);
+                                                                   }
+                                                                   
+                                                                   else{
+                                                                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MCDemo"
+                                                                                                                       message:@"File was successfully sent."
+                                                                                                                      delegate:self
+                                                                                                             cancelButtonTitle:nil
+                                                                                                             otherButtonTitles:@"Great!", nil];
+                                                                       
+                                                                       [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+                                                                       
+                                                                       [_arrFiles replaceObjectAtIndex:_selectedRow withObject:_selectedFile];
+                                                                       [_tableFiles performSelectorOnMainThread:@selector(reloadData)
+                                                                                                   withObject:nil
+                                                                                                waitUntilDone:NO];
+                                                                   }
+                                                                   
+                                                               }];
+            /////
+            [progress addObserver:self
+                       forKeyPath:@"fractionCompleted"
+                          options:NSKeyValueObservingOptionNew
+                          context:nil];
+            /////
+        });
+    }
+}
+/////
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    NSString *sendingMessage = [NSString stringWithFormat:@"%@ - Sending %.f%%",
+                                _selectedFile,
+                                [(NSProgress *)object fractionCompleted] * 100
+                                ];
+    
+    [_arrFiles replaceObjectAtIndex:_selectedRow withObject:sendingMessage];
+    
+    [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 /////
 - (void)didReceiveMemoryWarning {

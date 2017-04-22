@@ -26,6 +26,8 @@
 -(void)didStartReceivingResourceWithNotification:(NSNotification *)notification;
 -(void)updateReceivingProgressWithNotification:(NSNotification *)notification;
 /////
+-(void)didFinishReceivingResourceWithNotification:(NSNotification *)notification;
+/////
 @end
 
 @implementation FileViewController
@@ -53,6 +55,12 @@
                                              selector:@selector(updateReceivingProgressWithNotification:)
                                                  name:@"MCReceivingProgressNotification"
                                                object:nil];
+    /////
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishReceivingResourceWithNotification:)
+                                                 name:@"didFinishReceivingResourceNotification"
+                                               object:nil];
+    /////
 }
 /////
 -(void)copySampleFilesToDocDirIfNeeded{
@@ -146,7 +154,15 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    /////
+    if ([[_arrFiles objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
+
     return 60.0;
+    /////
+    }
+    else{
+        return 80.0;
+    }
 }
 /////
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -247,7 +263,47 @@
     [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 /////
-
+-(void)updateReceivingProgressWithNotification:(NSNotification *)notification{
+    NSProgress *progress = [[notification userInfo] objectForKey:@"progress"];
+    
+    NSDictionary *dict = [_arrFiles objectAtIndex:(_arrFiles.count - 1)];
+    NSDictionary *updatedDict = @{@"resourceName"  :   [dict objectForKey:@"resourceName"],
+                                  @"peerID"        :   [dict objectForKey:@"peerID"],
+                                  @"progress"      :   progress
+                                  };
+    
+    
+    
+    [_arrFiles replaceObjectAtIndex:_arrFiles.count - 1
+                         withObject:updatedDict];
+    
+    [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+/////
+-(void)didFinishReceivingResourceWithNotification:(NSNotification *)notification{
+    NSDictionary *dict = [notification userInfo];
+    
+    NSURL *localURL = [dict objectForKey:@"localURL"];
+    NSString *resourceName = [dict objectForKey:@"resourceName"];
+    
+    NSString *destinationPath = [_documentsDirectory stringByAppendingPathComponent:resourceName];
+    NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    [fileManager copyItemAtURL:localURL toURL:destinationURL error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+    
+    [_arrFiles removeAllObjects];
+    _arrFiles = nil;
+    _arrFiles = [[NSMutableArray alloc] initWithArray:[self getAllDocDirFiles]];
+    
+    [_tableFiles performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+/////
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

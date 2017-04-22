@@ -56,6 +56,17 @@
 
 
 -(void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error{
+    /////
+    NSDictionary *dict = @{@"resourceName"  :   resourceName,
+                           @"peerID"        :   peerID,
+                           @"localURL"      :   localURL
+                           };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didFinishReceivingResourceNotification"
+                                                        object:nil
+                                                      userInfo:dict];
+    
+    /////
     
 }
 

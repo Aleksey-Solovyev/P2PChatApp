@@ -52,6 +52,27 @@
 
 -(void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress{
     
+    /////
+    
+    NSDictionary *dict = @{@"resourceName"  :   resourceName,
+                           @"peerID"        :   peerID,
+                           @"progress"      :   progress
+                           };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidStartReceivingResourceNotification"
+                                                        object:nil
+                                                      userInfo:dict];
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [progress addObserver:self
+                   forKeyPath:@"fractionCompleted"
+                      options:NSKeyValueObservingOptionNew
+                      context:nil];
+    });
+    
+    /////
+    
 }
 
 

@@ -15,7 +15,7 @@
 /////
 @property (nonatomic, strong) AppDelegate *appDelegate;
 @property (nonatomic, strong) NSString *documentsDirectory;
--(void) copySampleFilesToDocDirIfNeeded;
+-(void) addSampleFiles;
 /////
 @property (nonatomic, strong) NSMutableArray *arrFiles;
 -(NSArray *) getAllDocDirFiles;
@@ -39,7 +39,7 @@
     /////
     _appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
     /////
-    [self copySampleFilesToDocDirIfNeeded];
+    [self addSampleFiles];
     /////
     _arrFiles = [[NSMutableArray alloc] initWithArray:[self getAllDocDirFiles]];
     [_tableFiles setDelegate:self];
@@ -63,7 +63,7 @@
     /////
 }
 /////
--(void)copySampleFilesToDocDirIfNeeded{
+-(void)addSampleFiles{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     _documentsDirectory = [[NSString alloc] initWithString:[paths objectAtIndex:0]];
     
